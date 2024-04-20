@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Convertir Imagen a ACCSI</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" action="@Url.Action("UploadImage", "Home")">
+                        <div class="form-group">
+                            <label for="imageFileInput">Selecciona una imagen:</label>
+                            <input type="file" name="imageFile" accept="image/*" class="form-control-file mb-2" id="imageFileInput">
+                        </div>
+                        <div class="text-center mb-3">
+                            <div id="imagePreview"></div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="convertButton" style="display: none;">Convertir Imagen</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        document.getElementById('imageFileInput').addEventListener('change', function (event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100%';
+                document.getElementById('imagePreview').innerHTML = '';
+                document.getElementById('imagePreview').appendChild(img);
+                document.getElementById('convertButton').style.display = 'block';
+            }
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+}
